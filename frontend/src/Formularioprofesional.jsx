@@ -1,67 +1,98 @@
 import { useState } from 'react';
-import { crearProfesional } from './api/profesionales';
 
-function FormularioProfesional() {
-  const [form, setForm] = useState({
+function FormProfesional() {
+  const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     especialidad: '',
-    telefono: '',
+    matricula: ''
   });
 
-  const [mensaje, setMensaje] = useState('');
-
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await crearProfesional(form);
-      setMensaje(`✅ Profesional creado con ID: ${res.id}`);
-      setForm({ nombre: '', especialidad: '', telefono: '' });
-    } catch (err) {
-      console.error(err);
-      setMensaje('❌ Error al crear profesional');
+      const res = await fetch('http://localhost:3001/api/profesionales', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`Profesional creado con ID: ${data.id}`);
+        setFormData({
+          nombre: '',
+          apellido: '',
+          especialidad: '',
+          matricula: ''
+        });
+      } else {
+        alert('Error: ' + data.mensaje);
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      alert('Error de conexión con el servidor');
     }
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto bg-white shadow rounded space-y-4">
-      <h2 className="text-xl font-bold">Nuevo Profesional</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          name="nombre"
-          value={form.nombre}
-          onChange={handleChange}
-          placeholder="Nombre"
-          required
-          className="border p-2 w-full"
-        />
-        <input
-          name="especialidad"
-          value={form.especialidad}
-          onChange={handleChange}
-          placeholder="Especialidad"
-          required
-          className="border p-2 w-full"
-        />
-        <input
-          name="telefono"
-          value={form.telefono}
-          onChange={handleChange}
-          placeholder="Teléfono"
-          required
-          className="border p-2 w-full"
-        />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Guardar
-        </button>
-      </form>
-      {mensaje && <p>{mensaje}</p>}
-    </div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto mt-8">
+      <input
+        type="text"
+        name="nombre"
+        placeholder="Nombre"
+        value={formData.nombre}
+        onChange={handleChange}
+        className="p-2 border border-gray-300 rounded"
+        required
+      />
+      <input
+        type="text"
+        name="apellido"
+        placeholder="Apellido"
+        value={formData.apellido}
+        onChange={handleChange}
+        className="p-2 border border-gray-300 rounded"
+        required
+      />
+      <input
+        type="text"
+        name="especialidad"
+        placeholder="Especialidad"
+        value={formData.especialidad}
+        onChange={handleChange}
+        className="p-2 border border-gray-300 rounded"
+        required
+      />
+      <input
+        type="text"
+        name="matricula"
+        placeholder="Matrícula"
+        value={formData.matricula}
+        onChange={handleChange}
+        className="p-2 border border-gray-300 rounded"
+        required
+      />
+      <button
+        type="submit"
+        className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+      >
+        Agregar Profesional
+      </button>
+    </form>
+
   );
 }
 
-export default FormularioProfesional;
+export default FormProfesional;
