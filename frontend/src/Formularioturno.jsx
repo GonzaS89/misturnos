@@ -40,29 +40,37 @@ export const Formularioturno = () => {
         dni: formData.dni,
         obrasocial_id: formData.obrasocial_id,
       });
-    
+
       console.log("Turno reservado correctamente", response.data);
       alert("Turno reservado correctamente");
-    
+
+      setFormData({
+        paciente_nombre: "",
+        dni: "",
+        obrasocial_id: "",
+        turno_id: "",
+      });
+
     } catch (error) {
       console.error("Error al hacer la solicitud PUT", error);
       alert("Error al hacer la solicitud PUT");
     }
-    
+
   };
 
-
+  const turnosDisponibles = turnos.filter((turno) => turno.estado !== "reservado");
+  const todosReservados = turnosDisponibles.length === 0;
 
   return (
     <div>
       <form onSubmit={manejarSubmit}
-        className="flex flex-col gap-6 justify-center items-center"
+        className="flex flex-col gap-4 justify-center items-center"
       >
         <div className="flex flex-col gap-2 w-3/4">
           <input
             type="text"
             name="paciente_nombre"
-            value={formData.nombre}
+            value={formData.paciente_nombre}
             onChange={manejarCambio}
             placeholder="Nombre y Apellido"
             className="w- p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
@@ -102,15 +110,22 @@ export const Formularioturno = () => {
           name="turno_id"
           value={formData.turno_id}
           onChange={manejarCambio}
+          disabled={todosReservados}
           required
           className="w-3/4 p-2 border rounded bg-slate-100 text-slate-950"
         >
-          <option value="">ELEGÍ TU TURNO</option>
-          {turnos.map((turno) => (
-            <option key={turno.id} value={turno.id}>
-              {formatearFecha(turno.fecha)} - {turno.hora}
-            </option>
-          ))}
+          {todosReservados ? (
+            <option value="">No hay turnos disponibles</option>
+          ) : (
+            <>
+              <option value="">ELEGÍ TU TURNO</option>
+              {turnosDisponibles.map((turno) => (
+                <option key={turno.id} value={turno.id}>
+                  {formatearFecha(turno.fecha)} - {turno.hora}
+                </option>
+              ))}
+            </>
+          )}
         </select>
 
         <button type="submit" className="uppercase w-3/4">
