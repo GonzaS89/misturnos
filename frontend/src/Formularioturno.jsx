@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useObtenerDB } from "./customHooks/useObtenerDB";
 
 export const Formularioturno = () => {
@@ -30,40 +31,24 @@ export const Formularioturno = () => {
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
+    console.log("Datos del formulario:", formData);
 
+    // 
     try {
-      const response = await fetch("/api/turnos/reservar", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          paciente_nombre: formData.paciente_nombre,
-          dni: formData.dni,
-          obrasocial_id: formData.obrasocial_id,
-          turno_id: formData.turno_id,
-        }),
+      const response = await axios.put(`http://localhost:3001/api/turnos/${formData.turno_id}`, {
+        paciente_nombre: formData.paciente_nombre,
+        dni: formData.dni,
+        obrasocial_id: formData.obrasocial_id,
       });
-
-      const resultText = await response.text(); // Primero leemos el texto
-      const result = resultText ? JSON.parse(resultText) : {};
-
-      if (!response.ok) {
-        // Manejo de errores más claro
-        const errorMessage = result.error || "Hubo un problema al realizar la solicitud.";
-        console.error("Error al actualizar el turno:", result);
-        alert("Error al reservar el turno: " + errorMessage);
-        return;
-      }
-
-      // Si todo está ok
-      console.log("Turno reservado correctamente", result);
+    
+      console.log("Turno reservado correctamente", response.data);
       alert("Turno reservado correctamente");
-
+    
     } catch (error) {
       console.error("Error al hacer la solicitud PUT", error);
       alert("Error al hacer la solicitud PUT");
     }
+    
   };
 
 

@@ -42,8 +42,9 @@ app.get("/api/turnos",async (req,res) => {
   }
 })
 
-app.put("/api/turnos/reservar", async (req, res) => {
-  const { paciente_nombre, dni, obrasocial_id, turno_id } = req.body;
+app.put("/api/turnos/:turno_id", async (req, res) => {
+  const { paciente_nombre, dni, obrasocial_id } = req.body;
+  const { turno_id } = req.params;  // Obtenemos el turno_id de los parámetros de la ruta
 
   try {
     const [resultado] = await db.execute(
@@ -63,6 +64,7 @@ app.put("/api/turnos/reservar", async (req, res) => {
     res.status(500).json({ error: "Error al reservar turno" });
   }
 });
+
 
 
 
