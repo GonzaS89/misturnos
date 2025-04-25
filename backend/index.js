@@ -42,14 +42,14 @@ app.get("/api/turnos",async (req,res) => {
   }
 })
 
-app.put("/api/turnos/profesional/:profesional_id", async (req, res) => {
+app.put("/api/turnos/reservar", async (req, res) => {
   const { paciente_nombre, dni, obrasocial_id, turno_id } = req.body;
 
   try {
     const [resultado] = await db.execute(
       `UPDATE turnos
        SET paciente_nombre = ?, dni = ?, obrasocial_id = ?, estado = 'reservado'
-       WHERE id = ? AND profesional_id = 1`,  // El profesional_id es fijo (1)
+       WHERE id = ?`,
       [paciente_nombre, dni, obrasocial_id, turno_id]
     );
 
@@ -63,6 +63,7 @@ app.put("/api/turnos/profesional/:profesional_id", async (req, res) => {
     res.status(500).json({ error: "Error al reservar turno" });
   }
 });
+
 
 
 

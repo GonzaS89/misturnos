@@ -30,9 +30,9 @@ export const Formularioturno = () => {
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await fetch(`/api/turnos/profesional/1`, { // Aquí profesional_id es fijo (1)
+      const response = await fetch("/api/turnos/reservar", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -44,24 +44,28 @@ export const Formularioturno = () => {
           turno_id: formData.turno_id,
         }),
       });
-  
-      // Verificar si la respuesta es exitosa (status 200-299)
+
+      const resultText = await response.text(); // Primero leemos el texto
+      const result = resultText ? JSON.parse(resultText) : {};
+
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error al actualizar el turno:", errorData);
-        alert("Hubo un problema al reservar el turno: " + errorData.error);
+        // Manejo de errores más claro
+        const errorMessage = result.error || "Hubo un problema al realizar la solicitud.";
+        console.error("Error al actualizar el turno:", result);
+        alert("Error al reservar el turno: " + errorMessage);
         return;
       }
-  
-      const result = await response.json();
-      console.log("Turno actualizado correctamente", result);
+
+      // Si todo está ok
+      console.log("Turno reservado correctamente", result);
       alert("Turno reservado correctamente");
+
     } catch (error) {
       console.error("Error al hacer la solicitud PUT", error);
       alert("Error al hacer la solicitud PUT");
     }
   };
-  
+
 
 
   return (
@@ -86,7 +90,7 @@ export const Formularioturno = () => {
             name="dni"
             value={formData.dni}
             onChange={manejarCambio}
-           
+
             placeholder="DNI"
             className="w- p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
             required
@@ -110,19 +114,19 @@ export const Formularioturno = () => {
           ))}
         </select>
         <select
-  name="turno_id"
-  value={formData.turno_id}
-  onChange={manejarCambio}
-  required
-  className="w-3/4 p-2 border rounded bg-slate-100 text-slate-950"
->
-  <option value="">ELEGÍ TU TURNO</option>
-  {turnos.map((turno) => (
-    <option key={turno.id} value={turno.id}>
-      {formatearFecha(turno.fecha)} - {turno.hora}
-    </option>
-  ))}
-</select>
+          name="turno_id"
+          value={formData.turno_id}
+          onChange={manejarCambio}
+          required
+          className="w-3/4 p-2 border rounded bg-slate-100 text-slate-950"
+        >
+          <option value="">ELEGÍ TU TURNO</option>
+          {turnos.map((turno) => (
+            <option key={turno.id} value={turno.id}>
+              {formatearFecha(turno.fecha)} - {turno.hora}
+            </option>
+          ))}
+        </select>
 
         <button type="submit" className="uppercase w-3/4">
           confirmar turno
