@@ -3,15 +3,15 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/api";
 
-export const useObtenerDB = (tabla) => {
+export const useObtenerObrasociales = () => {
 
-  const [datos, setDatos] = useState([]);
+  const [obrasociales, setObrasociales] = useState([]);
 
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await axios.get(`${API_URL}/${tabla}`);
-        setDatos(response.data);
+        const response = await axios.get(`${API_URL}/obrasociales`);
+        setObrasociales(response.data);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }
@@ -20,6 +20,5 @@ export const useObtenerDB = (tabla) => {
     obtenerDatos();
   }, []);
 
-  return { datos}
+  return { obrasociales }
 }
-

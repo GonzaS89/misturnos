@@ -1,13 +1,11 @@
-import FormularioProfesional from "./Formularioprofesional";
+import { Formularioturno } from "./Formularioturno";
 import { Listadeprofesionales } from "./Listadeprofesionales";
-import Reservarturnos from "./Reservarturnos";
 
 function App() {
   return(
-    <div className="w-screen flex justify-center">
-      <Listadeprofesionales />
-      {/* <FormularioProfesional /> */}
-      {/* <Reservarturnos /> */}
+    <div className="w-screen flex justify-center ">
+  
+    <Formularioturno />
     </div>
   )
 }  

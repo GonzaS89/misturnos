@@ -1,6 +1,6 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 
-const db = mysql.createConnection({
+const db = await mysql.createConnection({
     host:'sql10.freesqldatabase.com',
     user:'sql10774543',
     password:'qGBflyp3tU',
