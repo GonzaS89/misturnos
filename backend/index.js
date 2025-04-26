@@ -8,16 +8,15 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json()); // Middleware para procesar JSON en el body de las peticiones
 
-app.get("/api/profesionales", async (req, res) => {
-  try {
-    // Usamos await para esperar el resultado de la consulta
-    const [results] = await db.execute("SELECT * FROM profesionales");
-    res.json(results); // Devolvemos los resultados en formato JSON
-  } catch (err) {
-    console.error("Error al obtener los resultados:", err);
-    res.status(500).send("Error al obtener los resultados");
+app.get('/api/profesionales', async (req, res) => {
+  try{
+    const [results] = await db.execute('SELECT * FROM profesionales');
+    res.json(results);
+  }catch(error){
+    console.error('Error al obtener los profesionales', err);
+    res.status(500).send('Error al obtener los profesionales');
   }
-});
+})
 
 
 app.get("/api/obrasociales", async (req, res) => {
