@@ -106,8 +106,8 @@ export const Formularioturno2 = () => {
         required>
             <option value="" disabled>Elegí un turno</option>
             {turnos.map((turno) => (
-                <option value={turno.id} key={turno.id}>
-                    {formatearFecha(turno.fecha)} - {turno.hora}
+                <option value={turno.id} key={turno.id} disabled={turno.estado === 'reservado' ? true : false}>
+                    {formatearFecha(turno.fecha)} - {turno.hora} - {(turno.estado).toUpperCase()}
                 </option>
             ))}
         </select>

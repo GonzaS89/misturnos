@@ -30,15 +30,31 @@ app.get('/api/obrasociales', async (req,res) => {
   }
 })
 
-app.get("/api/turnos",async (req,res) => {
+// app.get("/api/turnos",async (req,res) => {
+//   try {
+//     const [results] = await db.execute("SELECT * FROM turnos");
+//     res.json(results);
+//   } catch (err) {
+//     console.error("Error al obtener los turnos:", err);
+//     res.status(500).send("Error al obtener los turnos");
+//   }
+// })
+
+// GET turnos
+app.get('/api/turnos', async (req, res) => {
+  const { dni } = req.query;
+
   try {
-    const [results] = await db.execute("SELECT * FROM turnos");
-    res.json(results);
-  } catch (err) {
-    console.error("Error al obtener los turnos:", err);
-    res.status(500).send("Error al obtener los turnos");
+    const [turnos] = await db.execute(
+    "SELECT FROM turnos WHERE dni = ?",
+    [dni]);
+    res.json(turnos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al traer turnos" });
   }
-})
+});
+
 
 app.put("/api/turnos/:turno_id", async (req, res) => {
   const { paciente_nombre, dni, obrasocial_id } = req.body;
