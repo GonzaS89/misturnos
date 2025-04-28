@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useObtenerDB } from "./customHooks/useObtenerDB";
 
@@ -25,7 +25,7 @@ export const Formularioturno = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -73,7 +73,7 @@ export const Formularioturno = () => {
             value={formData.paciente_nombre}
             onChange={manejarCambio}
             placeholder="Nombre y Apellido"
-            className="w- p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
+            className="p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
             required
           />
         </div>
@@ -85,7 +85,7 @@ export const Formularioturno = () => {
             onChange={manejarCambio}
 
             placeholder="DNI"
-            className="w- p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
+            className="p-2 border border-slate-300 bg-slate-100 text-slate-950 rounded-md shadow-md"
             required
           />
         </div>
