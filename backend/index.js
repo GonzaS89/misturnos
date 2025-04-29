@@ -31,7 +31,8 @@ app.get('/api/obrasociales', async (req,res) => {
 })
 
 app.get("/api/turnos", async (req, res) => {
-  const { dni } = req.query;  // Capturás el dni de la URL si viene
+  const { dni } = req.query;  
+  console.log("DNI recibido en la query:", dni);// Capturás el dni de la URL si viene
 
   try {
     let query;
