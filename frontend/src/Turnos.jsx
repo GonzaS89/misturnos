@@ -1,5 +1,15 @@
+// import React from 'react';
+
+// export const Turnos = () => {
+//   return (
+//     <div>Turnos</div>
+//   )
+// }
+
+
+
 import React, { useState } from "react";
-import { useObtenerTurnos } from "./customHooks/useObtenerTurnos";  // Asegurate de importar el hook
+import { useObtenerTurnos }  from "./customHooks/useObtenerTurnos";  // Asegurate de importar el hook
 
 const Turnos = () => {
   const [dni, setDni] = useState('');
@@ -20,8 +30,7 @@ const Turnos = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
-    setSubmit(true);
-    console.log(datos)  // Establecer el submit como true para realizar la consulta
+    setSubmit(true); // Establecer el submit como true para realizar la consulta
   };
 
   return (
@@ -39,7 +48,7 @@ const Turnos = () => {
       <ul>
         {datos.length > 0 ? (
           datos.map((turno) => (
-            <li key={turno.id}>{turno.paciente_nombre} - {formatearFecha(turno.fecha)}</li>
+            <li key={turno.dni}>{turno.paciente} - {formatearFecha(turno.fecha)}</li>
           ))
         ) : (
           <li>No se encontraron turnos</li>
