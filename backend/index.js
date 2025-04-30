@@ -7,58 +7,52 @@ const PORT = 3001;
 
 app.use(cors());
 app.use(express.json()); // Middleware para procesar JSON en el body de las peticiones
- 
 
-app.get('/api/profesionales', async (req,res) => {
-  try{
-    const [res] = await db.execute('SELECT * FROM profesionales');
-    res.json(res)
-  }catch{
-    console.error('Error al obtener los profesionales');
-    res.status(500).send('Error al obtener los profesionales')
-  }
-})
-
-
-app.get('/api/obrasociales', async (req,res) => {
-  try{
-    const [res] = await db.execute('SELECT * FROM obrasociales');
+app.get("/api/profesionales", async (req, res) => {
+  try {
+    const [res] = await db.execute("SELECT * FROM profesionales");
     res.json(res);
-  }catch{
-    console.error('Error en obtener obrasociales');
-    res.status(500).send('Error en obtener obrasociales');
+  } catch {
+    console.error("Error al obtener los profesionales");
+    res.status(500).send("Error al obtener los profesionales");
   }
-})
+});
+
+app.get("/api/obrasociales", async (req, res) => {
+  try {
+    const [res] = await db.execute("SELECT * FROM obrasociales");
+    res.json(res);
+  } catch {
+    console.error("Error en obtener obrasociales");
+    res.status(500).send("Error en obtener obrasociales");
+  }
+});
 
 app.get("/api/turnos", async (req, res) => {
-  const { dni } = req.query;  
-  console.log("DNI recibido en la query:", dni);// Capturás el dni de la URL si viene
+  const { dni } = req.query;
+  console.log("DNI recibido en la query:", dni); // Capturás el dni de la URL si viene
+
+  if (!dni || dni.trim() === "") {
+    return res.status(400).json({ error: "DNI es requerido" });
+  }
 
   try {
     let query;
-    let params = [];
 
-    if (dni) {
-        query = "SELECT t.id AS id, CONCAT(p.apellido, ', ', p.nombre) AS medico, p.especialidad AS especialidad, t.paciente_nombre AS paciente, t.dni AS dni, o.nombre AS obrasocial, t.fecha AS fecha, t.hora AS hora FROM turnos t JOIN profesionales p ON t.profesional_id = p.id JOIN obrasociales o ON t.obrasocial_id = o.id WHERE dni = ?";
-      params = [dni];
-    } else {
-      query = "SELECT * FROM turnos";
-    }
+    query =
+      "SELECT t.id AS id, CONCAT(p.apellido, ', ', p.nombre) AS medico, p.especialidad AS especialidad, t.paciente_nombre AS paciente, t.dni AS dni, o.nombre AS obrasocial, t.fecha AS fecha, t.hora AS hora FROM turnos t JOIN profesionales p ON t.profesional_id = p.id JOIN obrasociales o ON t.obrasocial_id = o.id WHERE dni = ?";
 
-    const [resultado] = await db.execute(query, params);
+    const [resultado] = await db.execute(query, dni);
     res.json(resultado);
-
   } catch (error) {
     console.error("Error al obtener los turnos:", error);
     res.status(500).json({ error: "Error al obtener los turnos" });
   }
 });
 
-
-
 app.put("/api/turnos/:turno_id", async (req, res) => {
   const { paciente_nombre, dni, obrasocial_id } = req.body;
-  const { turno_id } = req.params;  // Obtenemos el turno_id de los parámetros de la ruta
+  const { turno_id } = req.params; // Obtenemos el turno_id de los parámetros de la ruta
 
   try {
     const [resultado] = await db.execute(
