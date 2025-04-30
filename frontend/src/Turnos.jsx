@@ -14,6 +14,7 @@ export const Turnos = () => {
   const manejarSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
+
   };
 
   function formatearFechaISO(fechaISO) {
@@ -32,57 +33,67 @@ export const Turnos = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-8">
-      <h2 className="uppercase text-2xl font-bold text-slate-50">
-        Consulta de turnos
-      </h2>
-      <form className="flex gap-2" onSubmit={manejarSubmit}>
-        <input
-          type="text"
-          placeholder="Numero de dni"
-          className="p-2 bg-slate-700 text-slate-50"
-          value={dni}
-          onChange={manejarCambio}
-        />
-        <button
-          type="submit"
-          className="p-2 bg-slate-700 text-slate-50 uppercase rounded-none"
-        >
-          Consultar
-        </button>
-      </form>
+    <div className="w-full">
+      <div className="flex flex-col items-center gap-8">
+        <h2 className="uppercase text-2xl font-bold text-slate-50">
+          Consulta de turnos
+        </h2>
+        <form className="flex gap-2" onSubmit={manejarSubmit}>
+          <input
+            type="text"
+            placeholder="Numero de dni"
+            className="p-2 bg-slate-700 text-slate-50"
+            value={dni}
+            onChange={manejarCambio}
+            required
+          />
+          <button
+            type="submit"
+            className="p-2 bg-slate-700 text-slate-50 uppercase rounded-none"
+          >
+            Consultar
+          </button>
+        </form>
+      </div>
+
       <div className="w-full flex justify-center">
-        {dni === undefined ? 
-        ( <p>Inserta un dni</p> ) :
-        (<div className={`${submit ? 'flex flex-col gap-2' : 'hidden'}`}>
-            <ul>
-              {turnos.length > 0 &&
-                turnos.map((turno) => (
-                  <li className="gap-4 w-[600px] bg-slate-200">
-                    <div className="flex flex-col justify-center items-center">
-                      <p className="text-center uppercase p-2 bg-blue-900 text-slate-50 font-bold w-full">
-                        Turnos para {turno.paciente} - dni {turno.dni}
-                      </p>
-                      <div className="p-4 flex flex-col items-center justify-center">
-                        <h2 className="text-xl font-bold uppercase">
-                          {turno.medico}
-                        </h2>
-                        <p>{turno.especialidad}</p>
-                      </div>
-                      <p className="uppercase p-4 font-bold">
-                        {formatearFechaISO(turno.fecha)}
-                      </p>
-                      <p className="uppercase p-4 font-bold">{turno.hora}</p>
-                      <p className="uppercase p-4 font-bold">+
-                        {turno.obrasocial}
-                      </p>
+        {turnos.length > 0 ?
+          turnos.map((turno) => (
+            <div className={`${dni && submit ? 'flex flex-col gap-8' : 'hidden'}`}>
+              <ul>
+                <li className="gap-2 w-[600px] my-8">
+            
+                  <div className="datos-turno flex flex-col justify-center items-center bg-slate-200 w-full">
+                  <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Paciente</p>
+                      <p>{turno.paciente}</p>
                     </div>
-                  </li>
-                ))}
-            </ul>
-            <button onClick={() => formatearValores()} className="bg-blue-900 font-bold uppercase text-slate-50 rounded-none">Nueva consulta</button>
-          </div>)
-        }
+                    <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Dni</p>
+                      <p>{turno.dni}</p>
+                    </div>
+                    <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Profesional</p>
+                      <p><span className="uppercase">{turno.medico}</span> ({turno.especialidad})</p>
+                    </div>
+                    <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Fecha</p>
+                      <p>{formatearFechaISO(turno.fecha)}</p>
+                    </div>
+                    <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Hora</p>
+                      <p>{turno.hora}</p>
+                    </div>
+                    <div className="flex items-center justify-between w-full p-4">
+                      <p className="uppercase font-bold text-lg">Obra social</p>
+                      <p className="uppercase">{turno.obrasocial}</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <button onClick={() => formatearValores()} className="bg-blue-900 font-bold uppercase text-slate-50 rounded-none w-full p-4 text-xl">Nueva consulta</button>
+            </div>
+          )):  <p>No se registran turno para este dni</p> }
       </div>
     </div>
   );

@@ -6,11 +6,11 @@ import { Turnos } from "./Turnos";
 
 function App() {
   return(
-    <div className="w-screen flex justify-center">
+    <div className="w-screen flex flex-col justify-center">
   
     {/* <Formularioturno /> */}
-      {/* <Formularioturno2 /> */}
-    <Turnos />
+      <Formularioturno2 />
+    {/* <Turnos /> */}
     </div>
   )
 }  

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/turnos';
+const API_URL = 'http://localhost:3001/api/turnos/paciente';
 
 export const useObtenerTurnos = (dni, submit) => {
 
@@ -10,29 +10,29 @@ export const useObtenerTurnos = (dni, submit) => {
 
   useEffect(() => {
 
-    if(submit){
-
+    if(submit) {
+      
       const obtenerDatos = async () => {
-
-        try {
-          setError(null);
-
-          const url = dni ? `${API_URL}?dni=${dni}` : API_URL;
-
+        try{
+          const url = `${API_URL}?dni=${dni}`;
           const res = await axios.get(url);
-          console.log(res.data)
-          setDatos(res.data);
-        }catch (error){
-          console.error('Error al obtener turnos');
-          setError('Error al obtener turnos')
-        }
 
+          setDatos(res.data);
+          console.log(res.data)
+
+        }catch (error){
+          console.log('Error al filtrar turno');
+          setError('Error al filtrar turno');
+        }
       }
+
       obtenerDatos();
     }
 
-  },[dni, submit])
+  },[dni,submit] );
+  
+  
 
-  return {datos , error}
+  return { datos, error }
 }
 
