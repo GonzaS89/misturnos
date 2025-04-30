@@ -73,7 +73,7 @@ export const Turnos = () => {
                         {formatearFechaISO(turno.fecha)}
                       </p>
                       <p className="uppercase p-4 font-bold">{turno.hora}</p>
-                      <p className="uppercase p-4 font-bold">
+                      <p className="uppercase p-4 font-bold">+
                         {turno.obrasocial}
                       </p>
                     </div>
