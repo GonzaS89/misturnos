@@ -5,7 +5,11 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',  // Cambialo según tu estructura
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        logo: ['Luckiest Guy', 'cursive']
+      }
+    },
   },
   plugins: [],
 }

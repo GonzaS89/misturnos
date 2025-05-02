@@ -19,6 +19,7 @@ export const useObtenerDB = (tabla) => {
 
     obtenerDatos();
   }, []);
+  
 
   return { datos}
 }
