@@ -60,7 +60,7 @@ export const Formularioturno2 = () => {
   const estiloform = 'p-4 rounded-md'
 
   return (
-    <div className="my-0 mx-auto">
+    <div className="my-0 mx-auto absolute right-full">
       <form className="flex flex-col gap-4" onSubmit={manejarSubmit}>
         <input
           type="text"
