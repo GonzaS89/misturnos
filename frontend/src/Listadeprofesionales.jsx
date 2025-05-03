@@ -1,11 +1,18 @@
+import { useEffect, useState } from "react";
 import { useObtenerDB } from "./customHooks/useObtenerDB";
 import { IoIosPerson } from "react-icons/io";
 
 export const Listadeprofesionales = ({ idProfesional }) => {
   const { datos: profesionales } = useObtenerDB("profesionales");
+  const [idProf, setIdProf] = useState(null);
+
+  
+  useEffect(() => {
+    idProfesional(idProf);
+  },[idProf])
 
   return (
-    <div className="flex flex-col justify-center gap-6 mt-20 absolute z-20">
+    <div className={`flex flex-col justify-center gap-6 mt-36 absolute z-20 ${idProf ? 'left-full' : ''}`}>
       <h1 className="text-slate-900 text-center uppercase font-bold text-2xl">
         Seleccioná el profesional
       </h1>
@@ -13,7 +20,7 @@ export const Listadeprofesionales = ({ idProfesional }) => {
         {profesionales.map((prof) => (
           <div
             className="flex justify-between items-center p-6 shadow rounded-lg bg-white cursor-pointer hover:scale-105 h-full"
-            onClick={() => idProfesional(prof.id)}
+            onClick={() => setIdProf(prof.id)}
           >
             <div key={prof.id} className="flex flex-col basis-3/4">
               <h2 className="text-lg font-bold text-slate-900">

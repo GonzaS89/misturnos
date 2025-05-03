@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useObtenerDB } from "./customHooks/useObtenerDB";
 
-export const Formularioturno2 = () => {
+export const Formularioturno2 = ({ idProfesional }) => {
   const { datos: obrasociales } = useObtenerDB("obrasociales");
   const { datos: turnos } = useObtenerDB("turnos");
 
@@ -57,10 +57,16 @@ export const Formularioturno2 = () => {
     });
   };
 
-  const estiloform = 'p-4 rounded-md'
+  const estiloform = 'p-4 rounded-md';
+
+  const [idProf, setIdProf] = useState(null);
+
+  useEffect(() => {
+    setIdProf(idProfesional)
+  },[idProfesional])
 
   return (
-    <div className="my-0 mx-auto absolute right-full">
+    <div className={`my-0 mx-auto absolute ${idProf ? '' : 'right-full'}`}>
       <form className="flex flex-col gap-4" onSubmit={manejarSubmit}>
         <input
           type="text"
@@ -112,7 +118,9 @@ export const Formularioturno2 = () => {
             ))}
         </select>
         <button type="submit" className="font-bold uppercase p-4">Reservar turno</button>
+        
       </form>
+      <button className="font-bold uppercase p-4" onClick={()=> setIdProf('')}>Volver</button>
     </div>
   );
 };
