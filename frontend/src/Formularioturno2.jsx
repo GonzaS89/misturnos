@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useObtenerDB } from "./customHooks/useObtenerDB";
 
-export const Formularioturno2 = ({ idProfesional }) => {
+export const Formularioturno2 = ({ idProfesional, seteoId }) => {
   const { datos: obrasociales } = useObtenerDB("obrasociales");
   const { datos: turnos } = useObtenerDB("turnos");
 
@@ -65,6 +65,11 @@ export const Formularioturno2 = ({ idProfesional }) => {
     setIdProf(idProfesional)
   },[idProfesional])
 
+  const buttonBack = () => {
+    seteoId(true);
+    setIdProf(null)
+  }
+
   return (
     <div className={`my-0 mx-auto absolute ${idProf ? '' : 'right-full'}`}>
       <form className="flex flex-col gap-4" onSubmit={manejarSubmit}>
@@ -120,7 +125,7 @@ export const Formularioturno2 = ({ idProfesional }) => {
         <button type="submit" className="font-bold uppercase p-4">Reservar turno</button>
         
       </form>
-      <button className="font-bold uppercase p-4" onClick={()=> setIdProf('')}>Volver</button>
+      <button className="font-bold uppercase p-4" onClick={()=> buttonBack()}>Volver</button>
     </div>
   );
 };

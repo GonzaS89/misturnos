@@ -3,6 +3,7 @@ import { Formularioturno2 } from "./Formularioturno2";
 import { Turnos } from "./Turnos";
 import { Header } from "./Header";
 import { ContenedorMain } from "./ContenedorMain";
+import { Turnosdisponibles } from "./Turnosdisponibles";
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <div className="flex justify-center w-screen">
     <Header />
     <ContenedorMain />
+    
     {/* <Formularioturno /> */}
       {/* <Formularioturno2 /> */}
     {/* <Turnos /> */}

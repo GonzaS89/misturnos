@@ -1,10 +1,10 @@
 import mysql from 'mysql2/promise';
 
 const db = await mysql.createConnection({
-    host:'sql10.freesqldatabase.com',
-    user:'sql10775840',
-    password:'7iEA2LSdlq',
-    database:'sql10775840'
+    host:'b7dytv4f6tpscr3avqdp-mysql.services.clever-cloud.com',
+    user:'uhuznve5mzltadzd',
+    password:'bfPKxGTF8W67LbHDPbpj',
+    database:'b7dytv4f6tpscr3avqdp'
 })
 
 db.connect((err) => {
